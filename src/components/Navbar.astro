@@ -1,0 +1,170 @@
+---
+const links = [
+  { href: "#",         label: "Sākums",   cta: false },
+  { href: "#izvēlne",  label: "Izvēlne",  cta: false },
+  { href: "#par-mani", label: "Par mani", cta: false },
+  { href: "#galerija", label: "Galerija", cta: false },
+  { href: "#kontakti", label: "Kontakti", cta: true  },
+];
+---
+
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <img src="/logo.jpg" alt="Kūciņš logo" width="72" height="72" />
+  </a>
+
+  <ul class="nav-links">
+    {links.map(l => (
+      <li><a href={l.href} class={l.cta ? 'nav-cta' : ''}>{l.label}</a></li>
+    ))}
+  </ul>
+
+  <button id="hamburger" aria-label="Izvēlne">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div id="mobile-menu">
+  {links.map(l => (
+    <a href={l.href}>{l.label}</a>
+  ))}
+</div>
+
+<style>
+  #navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255,255,255,.95);
+    border-bottom: 2px solid var(--pink);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 84px;
+    transition: background .3s, box-shadow .3s, backdrop-filter .3s;
+  }
+  #navbar.scrolled {
+    background: rgba(255,255,255,.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 24px rgba(134,1,32,.1);
+    border-bottom-color: rgba(250,209,218,.5);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    color: var(--accent);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  .nav-logo img {
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(134,1,32,.3);
+    border: 3px solid var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    list-style: none;
+    margin: 0; padding: 0;
+  }
+  .nav-links a {
+    font-size: .875rem;
+    font-weight: 600;
+    color: #2a2a2a;
+    letter-spacing: .03em;
+    padding: .45rem .9rem;
+    border-radius: 2rem;
+    transition: background .18s, color .18s;
+  }
+  .nav-links a:hover { background: var(--pink); color: var(--accent); }
+
+  .nav-links a.nav-cta {
+    background: linear-gradient(135deg, #a8012a, #860120);
+    color: #fff;
+    padding: .5rem 1.25rem;
+    box-shadow: 0 4px 16px rgba(134,1,32,.38);
+    margin-left: .75rem;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .nav-links a.nav-cta:hover {
+    background: linear-gradient(135deg, #a8012a, #860120);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(134,1,32,.5);
+  }
+
+  #hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  #hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  #mobile-menu {
+    display: none;
+    position: fixed;
+    top: 84px; left: 0; right: 0;
+    background: #fff;
+    border-bottom: 2px solid var(--pink);
+    flex-direction: column;
+    padding: 20px 5%;
+    gap: 0;
+    z-index: 40;
+  }
+  #mobile-menu a {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2a2a2a;
+    padding: .75rem 1rem;
+    border-radius: 10px;
+    transition: background .18s, color .18s;
+  }
+  #mobile-menu a:hover { background: var(--pink); color: var(--accent); }
+  #mobile-menu a:last-child {
+    margin-top: .5rem;
+    background: linear-gradient(135deg, #a8012a, #860120);
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(134,1,32,.35);
+  }
+  #mobile-menu a:last-child:hover { background: linear-gradient(135deg, #a8012a, #860120); color: #fff; }
+  #mobile-menu.open { display: flex; }
+
+  @media (max-width: 768px) {
+    .nav-links  { display: none; }
+    #hamburger  { display: flex; }
+  }
+</style>
+
+<script>
+  const btn    = document.getElementById('hamburger');
+  const menu   = document.getElementById('mobile-menu');
+  const navbar = document.getElementById('navbar');
+
+  btn?.addEventListener('click', () => menu?.classList.toggle('open'));
+  document.addEventListener('click', (e) => {
+    if (!menu?.contains(e.target as Node) && !btn?.contains(e.target as Node))
+      menu?.classList.remove('open');
+  });
+
+  window.addEventListener('scroll', () => {
+    navbar?.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+</script>

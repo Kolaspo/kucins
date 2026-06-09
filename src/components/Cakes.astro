@@ -1,0 +1,66 @@
+---
+const cakes = [
+  { img: "/cake1.jpg", name: "Sarkanā velveta kūka",    desc: "Maskarpones krēms",       price: "1 kg = 15 €" },
+  { img: "/cake2.jpg", name: "Šokolādes biskvīta kūka", desc: "Ķiršu pildījums",         price: "1 kg = 15 €" },
+  { img: "/cake3.jpg", name: "Citronu biskvīta kūka",   desc: "Melleņu krēms",           price: "1 kg = 13 €" },
+  { img: "/cake4.jpg", name: "Vaniļas kūka",            desc: "Baltās šokolādes krēms",  price: "1 kg = 15 €" },
+];
+---
+
+<section id="izvēlne" class="cakes">
+  <h2>Populārākās kūkas</h2>
+
+  <div class="cards">
+    {cakes.map(cake => (
+      <div class="card">
+        <div class="card-img">
+          <img src={cake.img} alt={cake.name} loading="lazy" />
+        </div>
+        <div class="card-body">
+          <div class="card-name">{cake.name}</div>
+          <div class="card-desc">{cake.desc}</div>
+          <div class="card-price">{cake.price}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <a href="mailto:putane.evelina@gmail.com" class="btn-filled">Pasūtīt kūku</a>
+</section>
+
+<style>
+  .cakes {
+    background: var(--cream);
+    padding: 80px 5%;
+    text-align: center;
+  }
+  .cakes h2 { font-size: 2.5rem; color: var(--accent); margin-bottom: 3rem; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 2.5rem;
+  }
+  .card {
+    background: #fff;
+    border: 2px solid var(--pink);
+    border-radius: 20px;
+    overflow: hidden;
+    text-align: left;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .card:hover { box-shadow: 0 12px 40px rgba(134,1,32,.12); transform: translateY(-4px); }
+
+  .card-img { aspect-ratio: 4/3; overflow: hidden; }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+  .card:hover .card-img img { transform: scale(1.04); }
+
+  .card-body  { padding: 1rem 1.125rem 1.25rem; }
+  .card-name  { font-family: 'Playfair Display', serif; font-size: 1.125rem; color: #1a1a1a; margin-bottom: .375rem; }
+  .card-desc  { font-size: .8125rem; color: #888; margin-bottom: .75rem; line-height: 1.5; }
+  .card-price { font-size: .9375rem; font-weight: 700; color: var(--accent); }
+
+  @media (max-width: 900px)  { .cards { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 600px)  { .cards { grid-template-columns: 1fr; } }
+</style>

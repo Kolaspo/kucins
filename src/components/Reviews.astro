@@ -1,0 +1,94 @@
+---
+const reviews = [
+  "Sirsnīgs paldies par mīļo sveicienu, kūku jau paspēju nogaršot — viena no garšīgākajām, kas ēsta!!! 😊🥰",
+  "Liels, liels paldies par kūku! Visiem ļoti garšoja :)",
+  "Čau!!! Milzīgs paldies par kūku, bija tik amazing 😻😻😻 visi ir super satisfied un labi paēduši",
+  "Kūka bija izcila! Tagad ēdu siltu!",
+];
+---
+
+<section class="reviews">
+  <span class="section-tag">Atsauksmes</span>
+  <h2>Ko saka mūsu klienti</h2>
+
+  <div class="reviews-grid">
+    {reviews.map(text => (
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>{text}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .reviews {
+    background: var(--pink);
+    padding: 90px 5%;
+    text-align: center;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(134,1,32,.1);
+    padding: .3rem .9rem;
+    border-radius: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .reviews h2 {
+    font-size: 2.5rem;
+    color: var(--accent);
+    margin-bottom: 3rem;
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .review-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 1.75rem 1.75rem 1.5rem;
+    text-align: left;
+    box-shadow: 0 4px 24px rgba(134,1,32,.08);
+    border: 1.5px solid rgba(134,1,32,.07);
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .review-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 36px rgba(134,1,32,.14);
+  }
+
+  .stars {
+    font-size: 1.05rem;
+    color: #e8a020;
+    letter-spacing: .08em;
+  }
+
+  .review-card p {
+    font-size: .9375rem;
+    font-style: italic;
+    color: #3a3a3a;
+    line-height: 1.75;
+    flex: 1;
+  }
+
+
+  @media (max-width: 640px) {
+    .reviews-grid { grid-template-columns: 1fr; }
+    .reviews h2   { font-size: 2rem; }
+  }
+</style>

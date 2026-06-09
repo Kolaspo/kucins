@@ -1,0 +1,130 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = "Kūciņš — Mājās ceptas kūkas",
+  description = "Pašmāju konditorejas izstrādājumi katrai īpašai reizei.",
+} = Astro.props;
+---
+<!doctype html>
+<html lang="lv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph / Social sharing -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image"       content="/hero.jpg" />
+
+    <title>{title}</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style is:global>
+      :root {
+        --cream: #FFFBEF;
+        --accent: #860120;
+        --pink:   #FAD1DA;
+        --green:  #828F58;
+        --footer: #3a0f15;
+      }
+      html  { scroll-behavior: smooth; }
+      body  { background: var(--cream); color: #2a2a2a; overflow-x: hidden;
+              font-family: 'DM Sans', sans-serif; }
+      h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+      a { text-decoration: none; }
+
+      .btn-filled {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        padding: .875rem 2.5rem;
+        border-radius: 2rem;
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: .03em;
+        background: linear-gradient(135deg, #a8012a 0%, #860120 60%, #6b0019 100%);
+        color: #fff;
+        border: none;
+        box-shadow: 0 6px 22px rgba(134,1,32,.42), inset 0 1px 0 rgba(255,255,255,.18);
+        transition: transform .18s, box-shadow .18s;
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-filled::after {
+        content: '→';
+        font-size: .95rem;
+        transition: transform .2s;
+      }
+      .btn-filled:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(134,1,32,.5);
+      }
+      .btn-filled:hover::after { transform: translateX(4px); }
+
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        padding: .875rem 2.5rem;
+        border-radius: 2rem;
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: .03em;
+        background: rgba(134,1,32,.06);
+        color: var(--accent);
+        border: 2.5px solid var(--accent);
+        box-shadow: 0 2px 12px rgba(134,1,32,.12);
+        transition: transform .18s, background .2s, color .2s, box-shadow .18s;
+      }
+      .btn-outline:hover {
+        transform: translateY(-3px);
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 12px 32px rgba(134,1,32,.4);
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+    <script is:inline>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            observer.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('section:not(.hero)').forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(36px)';
+        el.style.transition = `opacity .7s ease ${i * 0.05}s, transform .7s ease ${i * 0.05}s`;
+        observer.observe(el);
+      });
+
+      document.addEventListener('astro:page-load', () => {
+        document.querySelectorAll('.in-view').forEach(el => {
+          (el as HTMLElement).style.opacity = '1';
+          (el as HTMLElement).style.transform = 'none';
+        });
+      });
+    </script>
+
+    <style is:global>
+      section:not(.hero).in-view {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    </style>
+  </body>
+</html>

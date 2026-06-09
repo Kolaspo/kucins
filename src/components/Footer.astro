@@ -1,0 +1,88 @@
+---
+const navLinks = [
+  { href: "#",          label: "Sākums"   },
+  { href: "#izvēlne",   label: "Izvēlne"  },
+  { href: "#par-mani",  label: "Par mani" },
+  { href: "#galerija",  label: "Galerija" },
+  { href: "#kontakti",  label: "Kontakti" },
+];
+const contacts = [
+  { href: "mailto:putane.evelina@gmail.com", label: "putane.evelina@gmail.com" },
+  { href: "tel:28783075",                    label: "28783075"                  },
+  { href: "https://www.instagram.com/kuucinss", label: "Instagram @kuucinss", external: true },
+  { href: "https://www.tiktok.com/@.kucins",    label: "TikTok .kucins",      external: true },
+];
+---
+
+<footer id="galerija">
+  <div class="footer-grid">
+    <div>
+      <span class="footer-logo">Kūciņš</span>
+      <p>Mājās ceptas kūkas ar mīlestību — katrai īpašai reizei.</p>
+    </div>
+
+    <div>
+      <h4>Navigācija</h4>
+      <ul>
+        {navLinks.map(l => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div>
+      <h4>Kontakti</h4>
+      <div class="contacts">
+        {contacts.map(c => (
+          <a href={c.href} target={c.external ? "_blank" : undefined} rel={c.external ? "noreferrer" : undefined}>
+            {c.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">© 2024 Kūciņš · Visas tiesības aizsargātas</div>
+</footer>
+
+<style>
+  footer {
+    background: var(--footer);
+    padding: 60px 5% 32px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.2fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-logo {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--pink);
+    margin-bottom: .625rem;
+  }
+  .footer-grid > div > p { font-size: .875rem; color: rgba(255,255,255,.55); line-height: 1.6; }
+  h4 { font-size: 1rem; color: var(--pink); margin-bottom: 1rem; }
+
+  ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .625rem; }
+  ul a, .contacts a {
+    font-size: .875rem;
+    color: rgba(255,255,255,.6);
+    transition: color .2s;
+  }
+  ul a:hover, .contacts a:hover { color: #fff; }
+
+  .contacts { display: flex; flex-direction: column; gap: .625rem; }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding-top: 24px;
+    text-align: center;
+    font-size: .8125rem;
+    color: rgba(255,255,255,.35);
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>
